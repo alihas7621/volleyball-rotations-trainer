@@ -153,30 +153,30 @@ export default function PlayerToken({
     >
       {/* Player circle */}
       <div
-        className="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-white text-sm md:text-base shadow-lg border-2"
+        className="w-11 h-11 md:w-13 md:h-13 rounded-full flex items-center justify-center font-bold text-white text-base md:text-lg border-2"
         style={{
           backgroundColor: player.color,
           borderColor,
-          boxShadow: glowShadow || '0 2px 8px rgba(0,0,0,0.3)',
+          boxShadow: glowShadow || '0 3px 12px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.15)',
         }}
       >
         {player.number}
       </div>
 
-      {/* Name */}
-      <div className="mt-0.5 text-[9px] md:text-[10px] font-medium text-text-primary bg-black/60 px-1 py-0.5 rounded whitespace-nowrap">
-        {player.name}
-      </div>
-
-      {/* Role label */}
-      {showRole && (
-        <div
-          className="text-[8px] md:text-[9px] font-bold px-1 rounded"
-          style={{ backgroundColor: player.color, color: 'white' }}
-        >
-          {ROLE_ABBREV[player.role]}
+      {/* Name + role combined label */}
+      <div className="mt-0.5 flex items-center gap-0.5">
+        <div className="text-[10px] md:text-[11px] font-semibold text-white bg-black/70 px-1.5 py-0.5 rounded-md whitespace-nowrap backdrop-blur-sm">
+          {player.name}
         </div>
-      )}
+        {showRole && (
+          <div
+            className="text-[9px] md:text-[10px] font-bold px-1 py-0.5 rounded-md"
+            style={{ backgroundColor: player.color, color: 'white' }}
+          >
+            {ROLE_ABBREV[player.role]}
+          </div>
+        )}
+      </div>
 
       {/* Zone badge */}
       {(zoneBadgeOverride === undefined || zoneBadgeOverride !== '') && (
