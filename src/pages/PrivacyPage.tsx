@@ -5,7 +5,7 @@ export default function PrivacyPage() {
 
       <div className="space-y-6 text-sm text-text-secondary leading-relaxed">
         <p>
-          Last updated: May 2025
+          Last updated: May 2026
         </p>
 
         <section>
@@ -30,11 +30,46 @@ export default function PrivacyPage() {
         </section>
 
         <section>
+          <h2 className="text-lg font-bold font-display text-text-primary mb-2">Analytics</h2>
+          <p>
+            This app uses <strong className="text-text-primary">Google Analytics 4</strong> to understand how the
+            app is used. This includes page views, feature usage (such as which tabs you open, quiz activity, and
+            rotation changes), and general engagement metrics. Google Analytics uses cookies to distinguish unique
+            users and sessions.
+          </p>
+          <p className="mt-2">
+            The data collected is anonymous and aggregated. No personally identifiable information (such as names
+            or email addresses) is collected through analytics. Google may process this data on servers outside your
+            country. You can learn more about how Google handles data at{' '}
+            <a
+              href="https://policies.google.com/privacy"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-amber-400 hover:text-amber-300 underline"
+            >
+              Google Privacy Policy
+            </a>.
+          </p>
+          <p className="mt-2">
+            You can opt out of Google Analytics tracking by installing the{' '}
+            <a
+              href="https://tools.google.com/dlpage/gaoptout"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-amber-400 hover:text-amber-300 underline"
+            >
+              Google Analytics Opt-out Browser Add-on
+            </a>.
+          </p>
+        </section>
+
+        <section>
           <h2 className="text-lg font-bold font-display text-text-primary mb-2">Cookies and Third-Party Services</h2>
           <p>
-            The app itself does not set cookies. However, if advertisements are displayed on this site in the
-            future (e.g., through Google AdSense), third-party ad vendors may use cookies to serve ads based on
-            your browsing activity. These cookies are managed by the respective ad networks.
+            This app uses cookies through Google Analytics to track anonymous usage data (as described above).
+            In the future, advertisements may be displayed on this site (e.g., through Google AdSense).
+            Third-party ad vendors may use cookies to serve ads based on your browsing activity. These cookies
+            are managed by the respective ad networks.
           </p>
           <p className="mt-2">
             Google's use of advertising cookies enables it and its partners to serve ads based on your visit to
@@ -47,14 +82,6 @@ export default function PrivacyPage() {
             >
               Google Ads Settings
             </a>.
-          </p>
-        </section>
-
-        <section>
-          <h2 className="text-lg font-bold font-display text-text-primary mb-2">Analytics</h2>
-          <p>
-            Basic analytics may be used to understand how the app is used (page views, feature usage).
-            No personally identifiable information is collected through analytics.
           </p>
         </section>
 
