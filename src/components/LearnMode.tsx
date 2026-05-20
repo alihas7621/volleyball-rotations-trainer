@@ -108,21 +108,35 @@ export default function LearnMode({ players, startingZones }: LearnModeProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      {/* Rotation selector */}
-      <div className="flex items-center justify-center gap-2">
+      {/* Rotation selector — stepper style */}
+      <div className="flex items-center justify-center gap-1.5">
+        <button
+          onClick={() => rotationIndex > 0 && handleRotationChange(rotationIndex - 1)}
+          disabled={rotationIndex === 0}
+          className="w-9 h-9 rounded-full flex items-center justify-center text-text-secondary hover:text-text-primary hover:bg-elevated transition-all disabled:opacity-30 disabled:cursor-default"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
         {FORMATIONS_5_1.map((f, i) => (
           <button
             key={f.name}
             onClick={() => handleRotationChange(i)}
-            className={`px-4 py-2 rounded-lg text-sm font-bold font-display transition-all ${
+            className={`w-11 h-11 rounded-full text-sm font-bold font-display transition-all ${
               rotationIndex === i
-                ? 'bg-amber-400 text-deep'
+                ? 'bg-amber-400 text-deep shadow-lg shadow-amber-400/20 scale-110'
                 : 'bg-elevated text-text-secondary hover:bg-hover'
             }`}
           >
             {f.name}
           </button>
         ))}
+        <button
+          onClick={() => rotationIndex < 5 && handleRotationChange(rotationIndex + 1)}
+          disabled={rotationIndex === 5}
+          className="w-9 h-9 rounded-full flex items-center justify-center text-text-secondary hover:text-text-primary hover:bg-elevated transition-all disabled:opacity-30 disabled:cursor-default"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
       </div>
 
       {/* Mobile drawer toggle */}
@@ -176,16 +190,16 @@ export default function LearnMode({ players, startingZones }: LearnModeProps) {
         <div className={`lg:absolute lg:top-0 lg:right-0 lg:w-[220px] space-y-3 ${drawerOpen ? 'block' : 'hidden'} lg:block`}>
 
           {/* View toggle */}
-          <div className="bg-surface rounded-lg p-3 space-y-2">
-            <h4 className="text-[10px] font-bold text-text-muted uppercase tracking-wider">View</h4>
-            <div className="flex gap-1">
-              {([['base', 'Base'] as const, ['serve-receive', 'Serve Receive'] as const]).map(([key, label]) => (
+          <div className="bg-surface rounded-lg p-3.5 space-y-2.5">
+            <h4 className="text-[11px] font-bold text-text-muted uppercase tracking-wide">View</h4>
+            <div className="flex gap-1.5">
+              {([['base', 'Base'] as const, ['serve-receive', 'Serve Rcv'] as const]).map(([key, label]) => (
                 <button
                   key={key}
                   onClick={() => handleViewChange(key)}
-                  className={`flex-1 px-2 py-1.5 rounded-md text-xs font-medium transition-all ${
+                  className={`flex-1 px-2 py-2 rounded-lg text-xs font-semibold transition-all ${
                     view === key
-                      ? 'bg-amber-400 text-deep'
+                      ? 'bg-amber-400 text-deep shadow-sm'
                       : 'bg-elevated text-text-secondary hover:bg-hover'
                   }`}
                 >
@@ -196,8 +210,8 @@ export default function LearnMode({ players, startingZones }: LearnModeProps) {
           </div>
 
           {/* Display toggles */}
-          <div className="bg-surface rounded-lg p-3 space-y-2">
-            <h4 className="text-[10px] font-bold text-text-muted uppercase tracking-wider">Display</h4>
+          <div className="bg-surface rounded-lg p-3.5 space-y-1.5">
+            <h4 className="text-[11px] font-bold text-text-muted uppercase tracking-wide">Display</h4>
             {([
               ['Zones', showZones, setShowZones] as const,
               ['Overlap Lines', showOverlapLines, setShowOverlapLines] as const,
@@ -206,36 +220,39 @@ export default function LearnMode({ players, startingZones }: LearnModeProps) {
               <button
                 key={label}
                 onClick={() => setter(!value)}
-                className={`w-full flex items-center justify-between px-2 py-1.5 rounded-md text-xs transition-all ${
+                className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all ${
                   value
-                    ? 'bg-amber-400/15 text-amber-400'
-                    : 'bg-elevated/50 text-text-secondary hover:bg-elevated'
+                    ? 'bg-amber-400/15 text-amber-400 border border-amber-400/20'
+                    : 'bg-elevated/50 text-text-secondary hover:bg-elevated border border-transparent'
                 }`}
               >
                 <span>{label}</span>
-                <span className="text-[10px]">{value ? 'ON' : 'OFF'}</span>
+                <span className={`text-[10px] font-bold ${value ? 'text-amber-400' : 'text-text-muted'}`}>{value ? 'ON' : 'OFF'}</span>
               </button>
             ))}
           </div>
 
           {/* Violations detail */}
           {!validation.isLegal && (
-            <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3 space-y-1">
-              <h4 className="text-[10px] font-bold text-red-400 uppercase tracking-wider">Violations</h4>
+            <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3.5 space-y-1.5">
+              <h4 className="text-[11px] font-bold text-red-400 uppercase tracking-wide">Violations</h4>
               {validation.violations.filter(v => v.severity === 'illegal').map((v, i) => (
-                <p key={i} className="text-[10px] text-red-300">{v.message}</p>
+                <p key={i} className="text-[11px] text-red-300 leading-snug">{v.message}</p>
               ))}
             </div>
           )}
 
           {/* Rotation info */}
-          <div className="bg-surface rounded-lg p-3">
-            <h4 className="text-[10px] font-bold text-text-muted uppercase tracking-wider">Rotation</h4>
-            <div className="mt-1 text-sm font-display font-bold text-text-primary">
+          <div className="bg-surface rounded-lg p-3.5">
+            <h4 className="text-[11px] font-bold text-text-muted uppercase tracking-wide mb-1.5">Rotation</h4>
+            <div className="text-base font-display font-bold text-text-primary">
               5-1 {formation.name}
             </div>
-            <div className="text-[11px] text-text-secondary mt-0.5">
-              Setter Zone {formation.setterZone} &middot; {[2,3,4].includes(formation.setterZone) ? 'Front' : 'Back'} row
+            <div className="text-xs text-text-secondary mt-1">
+              Setter in Zone {formation.setterZone}
+            </div>
+            <div className={`text-[11px] font-semibold mt-1 ${[2,3,4].includes(formation.setterZone) ? 'text-blue-400' : 'text-teal-400'}`}>
+              {[2,3,4].includes(formation.setterZone) ? 'Front row' : 'Back row'}
             </div>
           </div>
         </div>

@@ -102,8 +102,8 @@ export default function Court({
     <div className={containerClassName || "w-full max-w-md mx-auto select-none"}>
       <div
         ref={courtRef}
-        className="relative w-full aspect-square rounded-lg overflow-hidden border-2 border-hover shadow-2xl"
-        style={{ background: '#c66b22' }}
+        className="relative w-full aspect-square rounded-xl overflow-hidden shadow-2xl shadow-black/40"
+        style={{ background: '#c66b22', border: '2px solid rgba(255,255,255,0.08)' }}
       >
         {/* ── Layer 1: Court surface ── */}
         <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, #d9842e 0%, #c66b22 40%, #b86020 100%)' }} />
@@ -130,20 +130,19 @@ export default function Court({
         {/* ── Layer 3: Court lines (z-3) ── */}
         {/* Net (top edge) */}
         <div className="absolute top-0 left-0 right-0 h-[3px] bg-white z-[3]" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 translate-y-1 bg-white text-court-dark text-[9px] font-bold px-2 py-0.5 rounded-b z-[3]">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 translate-y-0.5 bg-white/90 text-court-dark text-[9px] font-bold px-2.5 py-0.5 rounded-b-md z-[3] tracking-wide">
           NET
         </div>
 
         {/* Attack line (3m from net = 33.3%) */}
         <div
-          className="absolute left-0 right-0 border-t-2 border-dashed border-white/60 z-[3]"
+          className="absolute left-0 right-0 z-[3]"
           style={{ top: `${mToPercent(3)}%` }}
-        />
-        <div
-          className="absolute right-1 text-[8px] text-white/50 font-medium z-[3]"
-          style={{ top: `${mToPercent(3) - 2}%` }}
         >
-          3m line
+          <div className="w-full border-t-2 border-dashed border-white/50" />
+          <div className="absolute right-2 -top-4 text-[9px] text-white/40 font-semibold font-mono tracking-wide">
+            ATTACK LINE
+          </div>
         </div>
 
         {/* End line (bottom) */}
