@@ -31,9 +31,11 @@ export function initGA(): void {
   document.head.appendChild(script);
 
   window.dataLayer = window.dataLayer || [];
-  window.gtag = function gtag(...args: unknown[]) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (window.dataLayer as unknown[]).push(args as any);
+  // Must match Google's exact gtag snippet: push the arguments object, not an array
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (window as any).gtag = function () {
+    // eslint-disable-next-line prefer-rest-params
+    window.dataLayer.push(arguments);
   };
   window.gtag('js', new Date());
   window.gtag('config', GA_ID, { send_page_view: true });
