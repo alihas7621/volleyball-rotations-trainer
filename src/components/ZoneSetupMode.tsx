@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback, useRef } from 'react';
-import type { Zone, CourtCoord } from '../types';
+import type { CourtCoord } from '../types';
 import { BACK_ROW_ZONES, ROLE_ABBREV } from '../types';
 import { getZoneAssignments, ZONE_ANCHORS } from '../logic/rotation';
 import { FORMATIONS_5_1 } from '../data/formations';
@@ -72,6 +72,16 @@ export default function ZoneSetupMode() {
 
   const mToPercent = (m: number) => (m / COURT_M) * 100;
 
+  const finishPolygon = useCallback(() => {
+    if (!selectedPlayerId || drawingPoints.length < 3) return;
+    const player = displayPlayers.find(p => p.id === selectedPlayerId);
+    if (!player) return;
+    const key = `${rotationIndex}-${player.role}`;
+    setPolygons(prev => ({ ...prev, [key]: [...drawingPoints] }));
+    setDrawingPoints([]);
+    setSelectedPlayerId(null);
+  }, [selectedPlayerId, drawingPoints, displayPlayers, rotationIndex]);
+
   // Convert click on court to court meters
   const handleCourtClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (!selectedPlayerId || !courtRef.current) return;
@@ -91,17 +101,7 @@ export default function ZoneSetupMode() {
     }
 
     setDrawingPoints(prev => [...prev, point]);
-  }, [selectedPlayerId, drawingPoints]);
-
-  const finishPolygon = useCallback(() => {
-    if (!selectedPlayerId || drawingPoints.length < 3) return;
-    const player = displayPlayers.find(p => p.id === selectedPlayerId);
-    if (!player) return;
-    const key = `${rotationIndex}-${player.role}`;
-    setPolygons(prev => ({ ...prev, [key]: [...drawingPoints] }));
-    setDrawingPoints([]);
-    setSelectedPlayerId(null);
-  }, [selectedPlayerId, drawingPoints, displayPlayers, rotationIndex]);
+  }, [selectedPlayerId, drawingPoints, finishPolygon]);
 
   const handleSelectPlayer = useCallback((pid: string) => {
     if (selectedPlayerId === pid) {
