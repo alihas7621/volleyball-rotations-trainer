@@ -6,6 +6,7 @@ import { validateOverlap } from '../logic/validation';
 import { FORMATIONS_5_1 } from '../data/formations';
 import { LIBERO_PLAYER } from '../data/defaultTeam';
 import Court from './Court';
+import { trackEvent } from '../lib/analytics';
 
 interface LearnModeProps {
   players: Player[];
@@ -95,11 +96,13 @@ export default function LearnMode({ players, startingZones }: LearnModeProps) {
   const handleRotationChange = (idx: number) => {
     setRotationIndex(idx);
     setCustomCoords({});
+    trackEvent('change_rotation', { rotation: FORMATIONS_5_1[idx].name, system: '5-1' });
   };
 
   const handleViewChange = (v: ViewMode) => {
     setView(v);
     setCustomCoords({});
+    if (v === 'serve-receive') trackEvent('use_serve_receive', { rotation: FORMATIONS_5_1[rotationIndex].name });
   };
 
   const handleReset = () => setCustomCoords({});

@@ -9,6 +9,7 @@ import { generateQuiz, checkPositionAccuracy, TOLERANCE_RADIUS } from '../logic/
 import type { PlayerResult } from '../logic/quiz';
 import type { QuizQuestion } from '../types';
 import Court from './Court';
+import { trackEvent } from '../lib/analytics';
 
 interface QuizModeProps {
   players: Player[];
@@ -127,6 +128,7 @@ export default function QuizMode({ players, startingZones }: QuizModeProps) {
     setCustomCoords({});
     setSubmitted(false);
     setResults({});
+    trackEvent('start_quiz', { category, rotation: q.rotationName, system: '5-1' });
   }, [players, startingZones, category, difficulty]);
 
   const handleSubmit = useCallback(() => {
@@ -155,6 +157,7 @@ export default function QuizMode({ players, startingZones }: QuizModeProps) {
 
     setResults(res);
     setSubmitted(true);
+    trackEvent('submit_quiz', { category: question.category, rotation: question.rotationName, system: '5-1' });
 
     // Accumulate graduated score: sum of per-player scores
     const roundPoints = Object.values(res).reduce((sum, r) => sum + r.score, 0);

@@ -6,6 +6,7 @@ import { SERVE_RECEIVE_PRESETS, getRotationTemplate } from '../logic/serveReceiv
 import Court from './Court';
 import RotationControls from './RotationControls';
 import DisplayToggleBar from './DisplayToggleBar';
+import { trackEvent } from '../lib/analytics';
 
 interface ServeReceiveModeProps {
   players: Player[];
@@ -89,8 +90,8 @@ export default function ServeReceiveMode({ players, startingZones, system }: Ser
       <RotationControls
         rotationIndex={rotationIndex}
         label={label}
-        onPrev={() => { setRotationIndex(Math.max(0, rotationIndex - 1)); setCustomCoords({}); }}
-        onNext={() => { setRotationIndex(Math.min(5, rotationIndex + 1)); setCustomCoords({}); }}
+        onPrev={() => { const idx = Math.max(0, rotationIndex - 1); setRotationIndex(idx); setCustomCoords({}); trackEvent('change_rotation', { rotation: `P${idx + 1}`, system }); }}
+        onNext={() => { const idx = Math.min(5, rotationIndex + 1); setRotationIndex(idx); setCustomCoords({}); trackEvent('change_rotation', { rotation: `P${idx + 1}`, system }); }}
       />
 
       {/* Presets */}
