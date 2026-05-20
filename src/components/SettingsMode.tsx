@@ -64,14 +64,15 @@ export default function SettingsMode({
   const usedZones = new Set(Object.values(team.startingZones));
 
   return (
-    <div className="space-y-6 max-w-2xl mx-auto">
-      <div className="text-center">
+    <div className="space-y-5 max-w-2xl mx-auto">
+      <div className="text-center py-1">
         <h2 className="text-xl font-bold text-text-primary font-display">Settings</h2>
+        <p className="text-xs text-text-muted mt-0.5">Configure your team and preferences</p>
       </div>
 
       {/* ── Libero ── */}
-      <div className="bg-surface rounded-lg p-4 space-y-3">
-        <h3 className="text-sm font-bold text-text-primary">Libero</h3>
+      <div className="bg-surface rounded-xl p-5 space-y-3">
+        <h3 className="text-sm font-bold text-text-primary font-display">Libero</h3>
         <label className="flex items-center gap-2 text-xs text-text-secondary">
           <input type="checkbox" checked={settings.liberoEnabled}
             onChange={e => onUpdateSettings({ liberoEnabled: e.target.checked })}
@@ -96,8 +97,8 @@ export default function SettingsMode({
       </div>
 
       {/* ── Team Selector ── */}
-      <div className="bg-surface rounded-lg p-4 space-y-3">
-        <h3 className="text-sm font-bold text-text-primary">Team</h3>
+      <div className="bg-surface rounded-xl p-5 space-y-3">
+        <h3 className="text-sm font-bold text-text-primary font-display">Team</h3>
         <div className="flex items-center gap-2 flex-wrap">
           {teams.map(t => (
             <button key={t.id} onClick={() => onSelectTeam(t.id)}
@@ -132,31 +133,34 @@ export default function SettingsMode({
       </div>
 
       {/* ── Player Editor ── */}
-      <div className="bg-surface rounded-lg p-4 space-y-3">
-        <h3 className="text-sm font-bold text-text-primary">Players</h3>
+      <div className="bg-surface rounded-xl p-5 space-y-3">
+        <h3 className="text-sm font-bold text-text-primary font-display">Players</h3>
         {team.players.map(player => {
           const currentZone = team.startingZones[player.id];
           return (
-            <div key={player.id} className="bg-elevated/50 rounded-md p-2 flex items-center gap-2 flex-wrap">
+            <div key={player.id} className="bg-elevated/50 rounded-lg p-3 flex items-center gap-2 flex-wrap border border-elevated/50">
+              <div className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold text-white" style={{ backgroundColor: player.color }}>
+                {player.number}
+              </div>
               <input type="number" value={player.number}
                 onChange={e => onUpdatePlayer(player.id, { number: parseInt(e.target.value) || 0 })}
-                className="w-12 bg-hover text-text-primary text-center rounded-md px-1 py-1 text-xs" min={0} max={99} />
+                className="w-12 bg-hover text-text-primary text-center rounded-lg px-1 py-1.5 text-xs" min={0} max={99} />
               <input type="text" value={player.name}
                 onChange={e => onUpdatePlayer(player.id, { name: e.target.value })}
-                className="flex-1 min-w-[80px] bg-hover text-text-primary rounded-md px-2 py-1 text-xs" />
+                className="flex-1 min-w-[80px] bg-hover text-text-primary rounded-lg px-2 py-1.5 text-xs" />
               <select value={player.role}
                 onChange={e => {
                   const role = e.target.value as Role;
                   onUpdatePlayer(player.id, { role, color: ROLE_COLORS[role], isLibero: role === 'L' });
                 }}
-                className="bg-hover text-text-primary rounded-md px-1 py-1 text-xs">
+                className="bg-hover text-text-primary rounded-lg px-2 py-1.5 text-xs">
                 {ROLES.map(r => (
                   <option key={r} value={r}>{ROLE_DISPLAY[r]}</option>
                 ))}
               </select>
               <select value={currentZone}
                 onChange={e => onUpdateStartingZone(player.id, parseInt(e.target.value) as Zone)}
-                className="bg-hover text-text-primary rounded-md px-1 py-1 text-xs">
+                className="bg-hover text-text-primary rounded-lg px-2 py-1.5 text-xs">
                 {ZONES.map(z => (
                   <option key={z} value={z} disabled={usedZones.has(z) && currentZone !== z}>
                     Z{z}{usedZones.has(z) && currentZone !== z ? ' (taken)' : ''}
@@ -165,15 +169,15 @@ export default function SettingsMode({
               </select>
               <input type="color" value={player.color}
                 onChange={e => onUpdatePlayer(player.id, { color: e.target.value })}
-                className="w-7 h-7 rounded cursor-pointer border-0" />
+                className="w-8 h-8 rounded-lg cursor-pointer border-0" />
             </div>
           );
         })}
       </div>
 
       {/* ── Export / Import ── */}
-      <div className="bg-surface rounded-lg p-4 space-y-3">
-        <h3 className="text-sm font-bold text-text-primary">Data</h3>
+      <div className="bg-surface rounded-xl p-5 space-y-3">
+        <h3 className="text-sm font-bold text-text-primary font-display">Data</h3>
         <div className="flex gap-2 flex-wrap">
           <button onClick={handleExport}
             className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-md text-xs">
@@ -199,7 +203,7 @@ export default function SettingsMode({
       </div>
 
       {/* ── Reset ── */}
-      <div className="bg-surface rounded-lg p-4">
+      <div className="bg-surface rounded-xl p-5">
         {!confirmReset ? (
           <button onClick={() => setConfirmReset(true)}
             className="px-3 py-1.5 bg-red-600/30 text-red-400 rounded-md text-xs hover:bg-red-600/50">
