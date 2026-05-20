@@ -260,8 +260,20 @@ export default function QuizMode({ players, startingZones }: QuizModeProps) {
               </div>
             </>
           ) : (
-            <div className="text-center py-20 text-text-muted">
-              <p className="text-2xl mb-2">Select a quiz type and press Start</p>
+            <div className="text-center py-16">
+              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-surface mb-4">
+                <svg width="36" height="36" viewBox="0 0 48 48" className="opacity-40">
+                  <circle cx="24" cy="24" r="22" fill="none" stroke="currentColor" strokeWidth="2"/>
+                  <path d="M24 2C24 2 10 14 10 24s14 22 14 22" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+                  <path d="M24 2C24 2 38 14 38 24s-14 22-14 22" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+                  <path d="M3 20h42" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+                  <path d="M3 28h42" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+                </svg>
+              </div>
+              <p className="text-lg font-display font-bold text-text-secondary mb-1">Test Your Knowledge</p>
+              <p className="text-sm text-text-muted max-w-xs mx-auto">
+                Pick a quiz type from the panel, then hit Start to practice your rotation positions.
+              </p>
             </div>
           )}
         </div>
@@ -270,16 +282,16 @@ export default function QuizMode({ players, startingZones }: QuizModeProps) {
         <div className={`lg:absolute lg:top-0 lg:right-0 lg:w-[220px] space-y-3 ${drawerOpen ? 'block' : 'hidden'} lg:block`}>
 
           {/* Quiz type selector */}
-          <div className="bg-surface rounded-lg p-3 space-y-2">
-            <h4 className="text-[10px] font-bold text-text-muted uppercase tracking-wider">Quiz Type</h4>
+          <div className="bg-surface rounded-lg p-3.5 space-y-2">
+            <h4 className="text-[11px] font-bold text-text-muted uppercase tracking-wide">Quiz Type</h4>
             {QUIZ_TYPES.map(qt => (
               <button
                 key={qt.key}
                 onClick={() => { setCategory(qt.key); setQuestion(null); setSubmitted(false); setResults({}); setCustomCoords({}); }}
-                className={`w-full px-2 py-1.5 rounded-md text-xs font-medium text-left transition-all ${
+                className={`w-full px-3 py-2 rounded-lg text-xs font-medium text-left transition-all ${
                   category === qt.key
-                    ? 'bg-amber-400/15 text-amber-400'
-                    : 'bg-elevated/50 text-text-secondary hover:bg-elevated'
+                    ? 'bg-amber-400/15 text-amber-400 border border-amber-400/20'
+                    : 'bg-elevated/50 text-text-secondary hover:bg-elevated border border-transparent'
                 }`}
               >
                 {qt.label}
@@ -289,18 +301,18 @@ export default function QuizMode({ players, startingZones }: QuizModeProps) {
 
           {/* Difficulty (fix-overlap only) */}
           {category === 'fix-overlap' && (
-            <div className="bg-surface rounded-lg p-3 space-y-2">
-              <h4 className="text-[10px] font-bold text-text-muted uppercase tracking-wider">
+            <div className="bg-surface rounded-lg p-3.5 space-y-2">
+              <h4 className="text-[11px] font-bold text-text-muted uppercase tracking-wide">
                 Difficulty: {difficulty} player{difficulty > 1 ? 's' : ''}
               </h4>
-              <div className="flex gap-1">
+              <div className="flex gap-1.5">
                 {[1, 2, 3, 4, 5].map(d => (
                   <button
                     key={d}
                     onClick={() => setDifficulty(d)}
-                    className={`flex-1 px-1 py-1.5 rounded-md text-xs font-bold transition-all ${
+                    className={`flex-1 px-1 py-2 rounded-lg text-xs font-bold transition-all ${
                       difficulty === d
-                        ? 'bg-amber-400 text-deep'
+                        ? 'bg-amber-400 text-deep shadow-sm'
                         : 'bg-elevated text-text-secondary hover:bg-hover'
                     }`}
                   >
@@ -314,20 +326,23 @@ export default function QuizMode({ players, startingZones }: QuizModeProps) {
           {/* Start button */}
           <button
             onClick={startQuiz}
-            className="w-full px-3 py-2 bg-amber-500 hover:bg-amber-400 text-white rounded-lg font-bold text-sm transition-colors"
+            className="w-full px-3 py-2.5 bg-amber-500 hover:bg-amber-400 text-white rounded-lg font-bold text-sm transition-all shadow-lg shadow-amber-500/20 hover:shadow-amber-400/30 active:scale-[0.98]"
           >
             {question ? 'New Question' : 'Start Quiz'}
           </button>
 
           {/* Score */}
-          <div className="bg-surface rounded-lg p-3">
-            <h4 className="text-[10px] font-bold text-text-muted uppercase tracking-wider">Score</h4>
-            <div className="mt-1 text-lg font-display font-bold text-text-primary">
-              {score.points.toFixed(1)} / {score.maxPoints}
+          <div className="bg-surface rounded-lg p-3.5">
+            <h4 className="text-[11px] font-bold text-text-muted uppercase tracking-wide">Score</h4>
+            <div className="mt-1.5 text-xl font-display font-bold text-text-primary">
+              {score.points.toFixed(1)} <span className="text-sm text-text-muted font-normal">/ {score.maxPoints}</span>
             </div>
             {score.maxPoints > 0 && (
-              <div className="text-[10px] text-text-secondary">
-                {Math.round((score.points / score.maxPoints) * 100)}%
+              <div className="mt-1 h-1.5 bg-elevated rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-amber-400 rounded-full transition-all duration-500"
+                  style={{ width: `${Math.round((score.points / score.maxPoints) * 100)}%` }}
+                />
               </div>
             )}
           </div>
