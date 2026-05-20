@@ -17,7 +17,8 @@
  * ──────────────────────────────────────────────────────────────────
  */
 
-const GA_ID = import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined;
+const GA_ID_RAW = import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined;
+const GA_ID = GA_ID_RAW && /^G-[A-Z0-9]{6,12}$/i.test(GA_ID_RAW) ? GA_ID_RAW : undefined;
 
 /** Inject the GA4 gtag.js script into the document head. */
 export function initGA(): void {
