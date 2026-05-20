@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme {
+  /* Warm neutrals (Arena Dark) */
+  --color-deep: #0f0d0b;
+  --color-base: #1a1614;
+  --color-surface: #252019;
+  --color-elevated: #312a22;
+  --color-hover: #3d342a;
+
+  /* Text */
+  --color-text-primary: #f5f0eb;
+  --color-text-secondary: #a89e94;
+  --color-text-muted: #6b6058;
+
+  /* Court surface */
+  --color-court-light: #d9842e;
+  --color-court-base: #c66b22;
+  --color-court-dark: #a85a1d;
+
+  /* Fonts */
+  --font-display: 'Satoshi', sans-serif;
+  --font-body: 'Geist', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Geist', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #0f0d0b;
+  color: #f5f0eb;
+}
+
+.court-gradient {
+  background: linear-gradient(180deg, #d9842e 0%, #c66b22 40%, #b86020 100%);
+}
+
+.font-display {
+  font-family: 'Satoshi', sans-serif;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.drag-active {
+  opacity: 0.5;
+}
+
+.drop-target {
+  outline: 2px dashed #f59e0b;
+  outline-offset: 2px;
+}
