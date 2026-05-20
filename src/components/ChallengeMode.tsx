@@ -5,6 +5,7 @@ import { validateOverlap } from '../logic/validation';
 import { generateChallenge, getNextServerId } from '../logic/challenge';
 import Court from './Court';
 import DisplayToggleBar from './DisplayToggleBar';
+import { trackEvent } from '../lib/analytics';
 
 interface ChallengeModeProps {
   players: Player[];
@@ -62,11 +63,13 @@ export default function ChallengeMode({ players, startingZones, system }: Challe
   }), [toggles, submitted]);
 
   const startChallenge = useCallback(() => {
-    setChallenge(generateChallenge(players, startingZones, difficulty, system));
+    const c = generateChallenge(players, startingZones, difficulty, system);
+    setChallenge(c);
     setCustomCoords({});
     setSelectedAnswer(null);
     setSubmitted(false);
     setResult(null);
+    trackEvent('open_challenge', { difficulty, system, rotation: c.rotationName });
   }, [players, startingZones, difficulty, system]);
 
   const handlePlayerMove = useCallback((playerId: string, coord: CourtCoord) => {

@@ -4,6 +4,7 @@ import { useTeam } from '../hooks/useTeam';
 import LearnMode from '../components/LearnMode';
 import QuizMode from '../components/QuizMode';
 import SettingsMode from '../components/SettingsMode';
+import { trackEvent } from '../lib/analytics';
 
 const MODES: { key: AppMode; label: string }[] = [
   { key: 'learn', label: 'Learn' },
@@ -26,7 +27,7 @@ export default function TrainerPage() {
         <div className="max-w-6xl mx-auto px-4 flex items-center gap-1">
           <nav className="flex items-stretch gap-1 overflow-x-auto -mb-px">
             {MODES.map(m => (
-              <button key={m.key} onClick={() => setMode(m.key)}
+              <button key={m.key} onClick={() => { setMode(m.key); trackEvent('open_tab', { tab: m.label }); }}
                 className={`px-4 py-3 text-sm font-medium whitespace-nowrap transition-all border-b-2 ${
                   mode === m.key
                     ? 'border-amber-400 text-amber-400'
@@ -39,7 +40,7 @@ export default function TrainerPage() {
 
           <div className="flex-1" />
 
-          <button onClick={() => setMode('settings')}
+          <button onClick={() => { setMode('settings'); trackEvent('open_tab', { tab: 'Settings' }); }}
             className={`px-3 py-3 text-sm font-medium whitespace-nowrap transition-all border-b-2 -mb-px ${
               mode === 'settings'
                 ? 'border-amber-400 text-amber-400'

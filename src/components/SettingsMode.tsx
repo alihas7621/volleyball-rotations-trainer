@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { Player, Team, Zone, Role, System, AppSettings } from '../types';
 import { ROLE_COLORS, ROLE_DISPLAY } from '../types';
+import { trackEvent } from '../lib/analytics';
 
 interface SettingsModeProps {
   team: Team;
@@ -75,7 +76,7 @@ export default function SettingsMode({
         <h3 className="text-sm font-bold text-text-primary font-display">Libero</h3>
         <label className="flex items-center gap-2 text-xs text-text-secondary">
           <input type="checkbox" checked={settings.liberoEnabled}
-            onChange={e => onUpdateSettings({ liberoEnabled: e.target.checked })}
+            onChange={e => { onUpdateSettings({ liberoEnabled: e.target.checked }); if (e.target.checked) trackEvent('enable_libero'); }}
             className="rounded" />
           Enable libero replacement (auto-swap back-row MB)
         </label>
