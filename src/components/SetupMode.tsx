@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from 'react';
-import type { Player, Zone, CourtCoord, DisplayToggles, FormationView } from '../types';
+import type { CourtCoord, DisplayToggles, FormationView } from '../types';
 import { BACK_ROW_ZONES } from '../types';
 import { getZoneAssignments, ZONE_ANCHORS } from '../logic/rotation';
 import { validateOverlap } from '../logic/validation';
@@ -24,7 +24,7 @@ export default function SetupMode() {
   const [allCustomCoords, setAllCustomCoords] = useState<Record<string, Record<string, CourtCoord>>>({});
 
   const stateKey = `${rotationIndex}-${view}`;
-  const customCoords = allCustomCoords[stateKey] || {};
+  const customCoords = useMemo(() => allCustomCoords[stateKey] || {}, [allCustomCoords, stateKey]);
 
   const formation = FORMATIONS_5_1[rotationIndex];
   const zones = useMemo(
