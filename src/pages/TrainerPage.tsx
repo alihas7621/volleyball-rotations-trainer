@@ -56,10 +56,10 @@ export default function TrainerPage() {
       {/* Main content */}
       <div className="max-w-6xl mx-auto px-4 py-5">
         {mode === 'learn' && (
-          <LearnMode players={activeTeam.players} startingZones={activeTeam.startingZones} />
+          <LearnMode players={activeTeam.players} startingZones={activeTeam.startingZones} liberoOverrides={activeTeam} />
         )}
         {mode === 'quiz' && (
-          <QuizMode players={activeTeam.players} startingZones={activeTeam.startingZones} />
+          <QuizMode players={activeTeam.players} startingZones={activeTeam.startingZones} liberoOverrides={activeTeam} />
         )}
         {mode === 'settings' && (
           <SettingsMode

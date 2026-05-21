@@ -79,6 +79,9 @@ export interface Team {
   startingZones: Record<string, Zone>; // playerId → starting zone (rotation 0)
   system: System;
   liberoId?: string;
+  liberoName?: string;
+  liberoNumber?: number;
+  liberoColor?: string;
 }
 
 // ─── Three-Position Model ───────────────────────────────────────

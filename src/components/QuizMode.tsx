@@ -4,7 +4,7 @@ import { BACK_ROW_ZONES, FRONT_ROW_ZONES, ROLE_ABBREV } from '../types';
 import { getZoneAssignments } from '../logic/rotation';
 import { validateOverlap } from '../logic/validation';
 import { FORMATIONS_5_1 } from '../data/formations';
-import { LIBERO_PLAYER } from '../data/defaultTeam';
+import { getLiberoPlayer } from '../data/defaultTeam';
 import { generateQuiz, checkPositionAccuracy, TOLERANCE_RADIUS } from '../logic/quiz';
 import type { PlayerResult } from '../logic/quiz';
 import type { QuizQuestion } from '../types';
@@ -14,6 +14,7 @@ import { trackEvent } from '../lib/analytics';
 interface QuizModeProps {
   players: Player[];
   startingZones: Record<string, Zone>;
+  liberoOverrides?: { liberoName?: string; liberoNumber?: number; liberoColor?: string };
 }
 
 const QUIZ_TYPES: { key: QuizCategory; label: string }[] = [
@@ -22,7 +23,7 @@ const QUIZ_TYPES: { key: QuizCategory; label: string }[] = [
   { key: 'fix-overlap', label: 'Fix Overlap' },
 ];
 
-export default function QuizMode({ players, startingZones }: QuizModeProps) {
+export default function QuizMode({ players, startingZones, liberoOverrides }: QuizModeProps) {
   const [category, setCategory] = useState<QuizCategory>('zone-placement');
   const [question, setQuestion] = useState<QuizQuestion | null>(null);
   const [customCoords, setCustomCoords] = useState<Record<string, CourtCoord>>({});
@@ -50,11 +51,11 @@ export default function QuizMode({ players, startingZones }: QuizModeProps) {
       if (!player) continue;
       if (player.role === 'MB1' || player.role === 'MB2') {
         const idx = updated.findIndex(p => p.id === pid);
-        if (idx >= 0) updated[idx] = { ...LIBERO_PLAYER, id: pid };
+        if (idx >= 0) updated[idx] = { ...getLiberoPlayer(liberoOverrides), id: pid };
       }
     }
     return updated;
-  }, [question, players, zones]);
+  }, [question, players, zones, liberoOverrides]);
 
   const coordinates = useMemo(() => {
     if (!question) return {};

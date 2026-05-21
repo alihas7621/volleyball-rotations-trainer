@@ -4,18 +4,19 @@ import { BACK_ROW_ZONES } from '../types';
 import { getZoneAssignments, ZONE_ANCHORS } from '../logic/rotation';
 import { validateOverlap } from '../logic/validation';
 import { FORMATIONS_5_1 } from '../data/formations';
-import { LIBERO_PLAYER } from '../data/defaultTeam';
+import { getLiberoPlayer } from '../data/defaultTeam';
 import Court from './Court';
 import { trackEvent } from '../lib/analytics';
 
 interface LearnModeProps {
   players: Player[];
   startingZones: Record<string, Zone>;
+  liberoOverrides?: { liberoName?: string; liberoNumber?: number; liberoColor?: string };
 }
 
 type ViewMode = 'base' | 'serve-receive';
 
-export default function LearnMode({ players, startingZones }: LearnModeProps) {
+export default function LearnMode({ players, startingZones, liberoOverrides }: LearnModeProps) {
   const [rotationIndex, setRotationIndex] = useState(0);
   const [view, setView] = useState<ViewMode>('base');
   const [customCoords, setCustomCoords] = useState<Record<string, CourtCoord>>({});
@@ -43,11 +44,11 @@ export default function LearnMode({ players, startingZones }: LearnModeProps) {
       if (!player) continue;
       if (player.role === 'MB1' || player.role === 'MB2') {
         const idx = updated.findIndex(p => p.id === pid);
-        if (idx >= 0) updated[idx] = { ...LIBERO_PLAYER, id: pid };
+        if (idx >= 0) updated[idx] = { ...getLiberoPlayer(liberoOverrides), id: pid };
       }
     }
     return { displayPlayers: updated, displayZones: zones };
-  }, [view, zones, players]);
+  }, [view, zones, players, liberoOverrides]);
 
   // Build coordinates from hardcoded formations + custom overrides
   const coordinates = useMemo(() => {

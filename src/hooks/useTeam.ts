@@ -99,6 +99,7 @@ export function useTeam() {
 
   const importTeam = useCallback((json: string): boolean => {
     try {
+      if (teams.length >= 3) return false;
       const team = JSON.parse(json) as Team;
       if (team.id && team.name && team.players && team.startingZones) {
         team.id = `imported-${Date.now()}`;
@@ -108,7 +109,7 @@ export function useTeam() {
       }
     } catch { /* ignore */ }
     return false;
-  }, [saveTeam]);
+  }, [saveTeam, teams.length]);
 
   const resetApp = useCallback(() => {
     localStorage.removeItem(TEAMS_KEY);
