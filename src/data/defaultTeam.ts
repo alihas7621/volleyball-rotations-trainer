@@ -20,6 +20,16 @@ export const LIBERO_PLAYER: Player = {
   id: 'libero', name: 'Taylor', number: 3, role: 'L', color: ROLE_COLORS.L, isLibero: true,
 };
 
+/** Build the libero player from team-specific overrides (name, number, color). */
+export function getLiberoPlayer(team?: { liberoName?: string; liberoNumber?: number; liberoColor?: string }): Player {
+  return {
+    ...LIBERO_PLAYER,
+    name: team?.liberoName ?? LIBERO_PLAYER.name,
+    number: team?.liberoNumber ?? LIBERO_PLAYER.number,
+    color: team?.liberoColor ?? LIBERO_PLAYER.color,
+  };
+}
+
 // 5-1 starting zones (rotation 0 = P1 = setter in zone 1)
 export const DEFAULT_STARTING_ZONES_5_1: Record<string, Zone> = {
   setter: 1,

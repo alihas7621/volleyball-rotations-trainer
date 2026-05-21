@@ -81,7 +81,26 @@ export default function SettingsMode({
           Enable libero replacement (auto-swap back-row MB)
         </label>
         {settings.liberoEnabled && (
-          <div className="space-y-2">
+          <div className="space-y-3">
+            <div className="bg-elevated/50 rounded-lg p-3 flex items-center gap-2 flex-wrap border border-elevated/50">
+              <div
+                className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold text-white"
+                style={{ backgroundColor: team.liberoColor ?? ROLE_COLORS.L }}
+              >
+                {team.liberoNumber ?? 3}
+              </div>
+              <input type="number" value={team.liberoNumber ?? 3}
+                onChange={e => onSaveTeam({ ...team, liberoNumber: parseInt(e.target.value) || 0 })}
+                className="w-12 bg-hover text-text-primary text-center rounded-lg px-1 py-1.5 text-xs" min={0} max={99} />
+              <input type="text" value={team.liberoName ?? 'Libero'}
+                onChange={e => onSaveTeam({ ...team, liberoName: e.target.value })}
+                className="flex-1 min-w-[80px] bg-hover text-text-primary rounded-lg px-2 py-1.5 text-xs"
+                placeholder="Libero name" />
+              <span className="text-xs text-teal-400 font-medium">Libero</span>
+              <input type="color" value={team.liberoColor ?? ROLE_COLORS.L}
+                onChange={e => onSaveTeam({ ...team, liberoColor: e.target.value })}
+                className="w-8 h-8 rounded-lg cursor-pointer border-0" />
+            </div>
             <p className="text-[10px] text-text-muted">Which middle blocker does the libero replace?</p>
             <div className="flex gap-2">
               {([['MB1', 'MB1 only'], ['MB2', 'MB2 only'], ['both', 'Both MBs']] as ['MB1' | 'MB2' | 'both', string][]).map(([val, label]) => (
@@ -109,7 +128,7 @@ export default function SettingsMode({
               {t.name}
             </button>
           ))}
-          <button onClick={() => {
+          {teams.length < 3 && <button onClick={() => {
             const newTeam: Team = {
               id: `team-${Date.now()}`,
               name: `Team ${teams.length + 1}`,
@@ -123,7 +142,10 @@ export default function SettingsMode({
           }}
             className="px-3 py-1 bg-teal-600 hover:bg-teal-500 text-white rounded-md text-xs">
             + New
-          </button>
+          </button>}
+          {teams.length >= 3 && (
+            <span className="text-[10px] text-text-muted">Max 3 teams</span>
+          )}
           {teams.length > 1 && activeTeamId !== 'default' && (
             <button onClick={() => onDeleteTeam(activeTeamId)}
               className="px-3 py-1 bg-red-600/30 text-red-400 rounded-md text-xs hover:bg-red-600/50">
