@@ -102,10 +102,10 @@ const P4_TEMPLATE: RotationTemplate = {
   positions: {
     S:   { x: 0.36, y: 0.55 },  // Z4 left net, sets
     MB2: { x: 0.48, y: 1.14 },  // Z3 hidden (stays left to respect overlap)
-    OH2: { x: 7.43, y: 5.74 },  // Z2 right-front, passes
-    OH1: { x: 1.52, y: 5.54 },  // Z5 deep left, passes
-    MB1: { x: 4.51, y: 6.37 },  // Z6 center-back (libero)
-    OPP: { x: 7.97, y: 8.2  },  // Z1 right-back, passes
+    OH2: { x: 1.52, y: 5.54 },  // Z2 → receives at position 5 (left-back)
+    OH1: { x: 4.51, y: 6.37 },  // Z5 → receives at position 6 (center-back)
+    MB1: { x: 7.43, y: 5.74 },  // Z6 (libero) → receives at position 1 (right-back)
+    OPP: { x: 7.97, y: 8.2  },  // Z1 deep right, passes
   },
 };
 

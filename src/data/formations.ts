@@ -95,10 +95,10 @@ export const FORMATIONS_5_1: RotationFormation[] = [
     },
     serveReceive: {
       S:   { x: 0.36, y: 0.55 },
-      OH1: { x: 1.52, y: 5.54 },
-      L:   { x: 4.51, y: 6.37 },
+      OH1: { x: 4.51, y: 6.37 },
+      L:   { x: 7.43, y: 5.74 },
       OPP: { x: 7.97, y: 8.2  },
-      OH2: { x: 7.43, y: 5.74 },
+      OH2: { x: 1.52, y: 5.54 },
       MB2: { x: 0.48, y: 1.14 },
     },
   },
