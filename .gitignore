@@ -25,3 +25,10 @@ dist-ssr
 .gstack/
 CLAUDE.md
 DESIGN.md
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
